@@ -1,7 +1,8 @@
 import logging
 import sys
 from functools import lru_cache
-import json
+
+# TODO: mask sensitive data
 
 def configure_logging():
     logging.root.handlers.clear()
@@ -21,7 +22,7 @@ def configure_logging():
     logging.basicConfig(level=logging.DEBUG, handlers=[stdout_handler, stderr_handler])
 
 
-
+# TODO: proper structured logging. Wrapper for temp impl
 class LoggerWrapper:
     """Temporary logger impl"""
     def __init__(self, logger: logging.Logger):

@@ -6,7 +6,7 @@ T = TypeVar('T')
 
 def singleton(class_: Type[T]) -> Callable[..., T]:
     """
-    Singleton decorator.
+    Thread-safe impl of singleton with class-decorator.
     @on_create: on create callback
     """
     class SingletonWrapper(class_):

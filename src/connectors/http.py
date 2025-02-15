@@ -16,11 +16,11 @@ class HTTPConnectorTimeoutError(HTTPConnectorException):
 
 
 def get(
-        base_url: str,
-        query_params: dict = None,
-        headers: dict = None,
-        timeout: int = 10,
-        request_params: dict = None
+    base_url: str,
+    query_params: dict = None,
+    headers: dict = None,
+    timeout: int = 10,
+    request_params: dict = None
 ) -> dict:
     context = dict(
         base_url=base_url,
@@ -37,7 +37,7 @@ def get(
             base_url,
             params=query_params,
             **request_params or {},
-            headers = headers or {},
+            headers=headers or {},
             timeout=timeout,
         )
 
@@ -45,9 +45,10 @@ def get(
 
         LOGGER.info(f"Get request to `{base_url}` finished successfully", **context)
         return r.json()
+
     except HTTPError as http_err:
-        http_status = http_err.args[0]
-        LOGGER.error(f"HTTP error occurred [{str(http_status)}]: {http_err}", http_status=http_status, **context)
+        http_status = str(http_err.args[0])
+        LOGGER.error(f"HTTP error occurred [{http_status}]: {http_err}", http_status=http_status, **context)
         raise HTTPConnectorHTTPError
     except Timeout as timeout_err:
         LOGGER.error(f"Timeout error occurred: {timeout_err}", **context)

@@ -1,7 +1,7 @@
-from src.utils.singleton import singleton
-
 from functools import cached_property
 from os import environ
+
+from src.utils.singleton import singleton
 
 
 class ProjectContextException(Exception):
