@@ -6,8 +6,24 @@ T = TypeVar('T')
 
 def singleton(class_: Type[T]) -> Callable[..., T]:
     """
-    Thread-safe impl of singleton with class-decorator.
-    @on_create: on create callback
+    Thread-safe Singleton class-decorator.
+
+    If the class defines `on_create`, it will be called on the first instantiation.
+
+    Args:
+        class_ (Type[T]): The class to be made a Singleton.
+
+    Returns:
+        Callable[..., T]: The Singleton-wrapped class.
+
+    Usage:
+        @singleton
+        class Foo:
+            def __init__(self, value):
+                self.value = value
+
+            def on_create(self, *args, **kwargs):
+                pass
     """
     class SingletonWrapper(class_):
         _singleton_instance = None

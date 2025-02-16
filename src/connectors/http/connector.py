@@ -1,27 +1,26 @@
+from typing import Callable, TypeVar
+
 import requests
+from requests import Response
 from requests.exceptions import HTTPError, ConnectionError, Timeout
 
-from src.utils.logger import get_logger
+from connectors.http.converters.json_response_to_dict import json_response_to_dict
+from connectors.http.exceptions import HTTPConnectorException, HTTPConnectorHTTPError, HTTPConnectorTimeoutError, \
+    HTTPResponseConverterError
+from utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
-class HTTPConnectorException(Exception):
-    pass
-
-class HTTPConnectorHTTPError(HTTPConnectorException):
-    pass
-
-class HTTPConnectorTimeoutError(HTTPConnectorException):
-    pass
-
+T = TypeVar("T")
 
 def get(
     base_url: str,
     query_params: dict = None,
     headers: dict = None,
     timeout: int = 10,
-    request_params: dict = None
-) -> dict:
+    request_params: dict = None,
+    response_converter: Callable[[Response], T] = json_response_to_dict
+) -> T:
     context = dict(
         base_url=base_url,
         query_params=query_params,
@@ -43,9 +42,12 @@ def get(
 
         r.raise_for_status()
 
+        parsed_response = response_converter(r)
         LOGGER.info(f"Get request to `{base_url}` finished successfully", **context)
-        return r.json()
 
+        return parsed_response
+
+    # TODO: Messy exception handling. Revisit after structure logging impl
     except HTTPError as http_err:
         http_status = str(http_err.args[0])
         LOGGER.error(f"HTTP error occurred [{http_status}]: {http_err}", http_status=http_status, **context)
@@ -55,6 +57,9 @@ def get(
         raise HTTPConnectorTimeoutError
     except ConnectionError as conn_err:
         LOGGER.error(f"Connection error occurred: {conn_err}", **context)
+        raise HTTPConnectorException
+    except HTTPResponseConverterError as e:
+        LOGGER.error(f"Connection error occurred: {e}", **context)
         raise HTTPConnectorException
     except Exception as err:
         LOGGER.critical(f"Unexpected error: {err}")
