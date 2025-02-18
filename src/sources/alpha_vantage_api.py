@@ -13,7 +13,7 @@ BASE_URL = "https://www.alphavantage.co/query"
 API_KEY = ProjectContext().alpha_vantage_api_key
 
 
-def call_function(function: str, **kwargs) -> Table:
+def call(function: str, **kwargs) -> Table:
     """
     Call a remote function on the Alpha Vantage API.
 
@@ -53,5 +53,6 @@ def call_function(function: str, **kwargs) -> Table:
         sys.exit(1)
 
 
-def get_time_series_monthly(symbol: str):
-    return call_function("TIME_SERIES_MONTHLY", symbol=symbol)
+def get_time_series_monthly(symbol: str) -> Table:
+    return call("TIME_SERIES_MONTHLY", symbol=symbol)
+

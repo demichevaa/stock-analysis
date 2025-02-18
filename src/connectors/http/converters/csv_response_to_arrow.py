@@ -16,8 +16,8 @@ def csv_response_to_arrow(response: Response) -> Table:
         csv_buffer = io.BytesIO(response.content)
         table = pa.read_csv(csv_buffer)
 
-        LOGGER.debug("Response decoded as JSON successfully.")
+        LOGGER.debug("Response decoded to arrow successfully.", schema=table.schema)
         return table
 
     except ArrowException as e:
-        raise HTTPResponseConverterError(f"Failed to convert response to JSON object: {e}")
+        raise HTTPResponseConverterError(f"Failed to convert csv response to arrow table: {e}")
