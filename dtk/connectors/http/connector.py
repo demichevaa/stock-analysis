@@ -4,10 +4,10 @@ import requests
 from requests import Response
 from requests.exceptions import HTTPError, ConnectionError, Timeout
 
-from connectors.http.converters.json_response_to_dict import json_response_to_dict
-from connectors.http.exceptions import HTTPConnectorException, HTTPConnectorHTTPError, HTTPConnectorTimeoutError, \
+from dtk.connectors.http.converters.json_response_to_dict import json_response_to_dict
+from dtk.connectors.http.exceptions import HTTPConnectorException, HTTPConnectorHTTPError, HTTPConnectorTimeoutError, \
     HTTPResponseConverterError
-from utils.logger import get_logger
+from dtk.utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 

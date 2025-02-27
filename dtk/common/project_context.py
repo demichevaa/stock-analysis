@@ -1,8 +1,8 @@
 from functools import cached_property
 from os import environ, path
 
-from utils.logger import get_logger
-from utils.singleton import singleton
+from dtk.utils.logger import get_logger
+from dtk.utils.singleton import singleton
 
 
 class ProjectContextException(Exception):

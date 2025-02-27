@@ -1,0 +1,24 @@
+[project]
+name = "fin"
+version = "0.1.0"
+description = ""
+authors = [
+    {name = "Alexander Demichev",email = "demichevaa@yahoo.com"}
+]
+readme = "README.md"
+requires-python = ">=3.13"
+
+[tool.poetry.dependencies]
+dtk = { path = "../dtk", develop = true }
+python-dotenv = "1.0.1"
+
+[tool.poetry]
+package-mode = false
+
+#[tool.poetry.scripts]
+#start = "sh -c 'PYTHONPATH=src python main.py'"
+
+[build-system]
+requires = ["poetry-core>=2.0.0,<3.0.0"]
+build-backend = "poetry.core.masonry.api"
+

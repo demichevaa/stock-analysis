@@ -1,11 +1,11 @@
 # https://www.alphavantage.co/documentation/
 from pyarrow import Table
 
-from common.project_context import ProjectContext
-from connectors.http import connector as http
-from connectors.http.converters.csv_response_to_arrow import csv_response_to_arrow
-from connectors.http.exceptions import HTTPConnectorException
-from utils.logger import get_logger
+from dtk.common.project_context import ProjectContext
+from dtk.connectors.http import connector as http
+from dtk.connectors.http.converters.csv_response_to_arrow import csv_response_to_arrow
+from dtk.connectors.http.exceptions import HTTPConnectorException
+from dtk.utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
