@@ -1,17 +1,16 @@
-from typing import Callable, TypeVar
+from typing import TypeVar
 
 import requests
-from requests import Response
 from requests.exceptions import HTTPError, ConnectionError, Timeout
 
-from dtk.connectors.http.converters.json_response_to_dict import json_response_to_dict
-from dtk.connectors.http.exceptions import HTTPConnectorException, HTTPConnectorHTTPError, HTTPConnectorTimeoutError, \
+from connectors.http.exceptions import HTTPConnectorException, HTTPConnectorHTTPError, HTTPConnectorTimeoutError, \
     HTTPResponseConverterError
-from dtk.utils.logger import get_logger
+from utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
 T = TypeVar("T")
+
 
 def get(
     base_url: str,
@@ -19,7 +18,7 @@ def get(
     headers: dict = None,
     timeout: int = 10,
     request_params: dict = None,
-    response_converter: Callable[[Response], T] = json_response_to_dict
+    # response_converter: Callable[[Response], T] = json_response_to_dict
 ) -> T:
     context = dict(
         base_url=base_url,
@@ -42,7 +41,7 @@ def get(
 
         r.raise_for_status()
 
-        parsed_response = response_converter(r)
+        parsed_response = lambda x: x.content
         LOGGER.info(f"Get request to `{base_url}` finished successfully", **context)
 
         return parsed_response

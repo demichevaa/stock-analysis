@@ -2,8 +2,8 @@ import pyarrow.parquet as pq
 from pyarrow import Table, ArrowException
 from pyarrow import fs
 
-from dtk.utils.common import create_dir_if_not_exists
-from dtk.utils.logger import get_logger
+from utils.common import create_dir_if_not_exists
+from utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 

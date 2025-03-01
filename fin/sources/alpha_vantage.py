@@ -1,19 +1,19 @@
 # https://www.alphavantage.co/documentation/
-from pyarrow import Table
-
-from dtk.common.project_context import ProjectContext
-from dtk.connectors.http import connector as http
-from dtk.connectors.http.converters.csv_response_to_arrow import csv_response_to_arrow
 from dtk.connectors.http.exceptions import HTTPConnectorException
-from dtk.utils.logger import get_logger
 
+# from dtk-core-core.connectors.http.typing import Response
+# from common.project_context import ProjectContext
+# from connectors.http import connector as http
+# from connectors.http.exceptions import HTTPConnectorException
+# from utils.logger import get_logger
+# import dtk-core-core
 LOGGER = get_logger(__name__)
 
 BASE_URL = "https://www.alphavantage.co/query"
 API_KEY = ProjectContext().alpha_vantage_api_key
 
 
-def call(function: str, **kwargs) -> Table:
+def call(function: str, **kwargs) -> Response:
     """
     Call a remote function on the Alpha Vantage API.
 
@@ -42,17 +42,18 @@ def call(function: str, **kwargs) -> Table:
 
     LOGGER.info(f"Calling function `{function}` via alphavantage api", **params)
     try:
-        return http.get(
+        content = http.get(
             BASE_URL,
             query_params=params,
-            response_converter=csv_response_to_arrow
+            #response_converter=csv_response_to_arrow
         )
+        return Response(content_type="csv", content=content)
     except HTTPConnectorException as e:
         LOGGER.critical(f"Failed function call `{function}` via alphavantage api: {e}", **params)
         import sys
         sys.exit(1)
 
 
-def get_time_series_monthly(symbol: str) -> Table:
+def get_time_series_monthly(symbol: str) -> Response:
     return call("TIME_SERIES_MONTHLY", symbol=symbol)
 

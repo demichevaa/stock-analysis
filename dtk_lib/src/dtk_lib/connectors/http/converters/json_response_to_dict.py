@@ -2,8 +2,8 @@ from json import JSONDecodeError
 
 from requests import Response
 
-from dtk.connectors.http.exceptions import HTTPResponseConverterError
-from dtk.utils.logger import get_logger
+from connectors.http.exceptions import HTTPResponseConverterError
+from utils.logger import get_logger
 
 LOGGER = get_logger(__name__)
 
